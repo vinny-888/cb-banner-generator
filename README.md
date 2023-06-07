@@ -2,7 +2,7 @@
 
 ## Live Demo
 
-[Live Demo](https://vinny-888.github.io/cb-mech-hanger)
+[Live Demo](https://vinny-888.github.io/cb-banner-generator/src)
 
 ## Running
 
