@@ -13,7 +13,7 @@ initMechContract();
 let prefix = '/cb-banner-generator/src/';
 // let prefix = './';
 
-
+let globalOffsetZ = 1.5;
 let scale = 5;
 // SCENE
 const scene = new THREE.Scene();
@@ -77,7 +77,7 @@ renderer.shadowMap.enabled = true
 light()
 
 // FLOOR
-generateFloor()
+// generateFloor()
 
 let lp = '1';
 let cbs = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
@@ -131,7 +131,7 @@ if(hasWallet){
 }
 
 if(true){
-        let globalOffsetX = (mechIds.length/2)-1 * scale * 10.4;
+        // let globalOffsetX = (mechIds.length/2)-1 * scale * 10.4;
 
 
         if(mechIds.length > 9){
@@ -198,7 +198,7 @@ if(true){
                         scaled = scaled - scaledAmt*4;
                         backDist = backDistAmt*4;
                     }
-                    model.position.set(35+backDist, offsetY, (Math.floor(index+1)*15) - (768/10));
+                    model.position.set(35+backDist, offsetY, (Math.floor(index+1)*15) - (768/10)+globalOffsetZ);
                     model.rotation.set(0, leftSide ? Math.PI/2 : -Math.PI/2, 0);
                     model.scale.set(scale*1.5*scaled,scale*1.5*scaled,scale*1.5*scaled);
                     scene.add(model);
@@ -322,7 +322,7 @@ function loadBroker(tokenId: number, x: number){
         plane.material.side = THREE.DoubleSide;
         plane.position.x = 27;
         plane.position.y = -256/10 + 1760/200;
-        plane.position.z = x - (768/10) + (1320/200);
+        plane.position.z = x - (768/10) + (1320/200) + globalOffsetZ - 1;
     
         // rotation.z is rotation around the z-axis, measured in radians (rather than degrees)
         // Math.PI = 180 degrees, Math.PI / 2 = 90 degrees, etc.
@@ -340,7 +340,7 @@ function loadPixelBroker(tokenId: number, x: number){
         plane.material.side = THREE.DoubleSide;
         plane.position.x = 27;
         plane.position.y = -256/10 + 960/200 + 1.6;
-        plane.position.z = x - (768/10) + (1320/200) + 7.5;
+        plane.position.z = x - (768/10) + (1320/200) + 7.5 + globalOffsetZ - 1;
     
         // rotation.z is rotation around the z-axis, measured in radians (rather than degrees)
         // Math.PI = 180 degrees, Math.PI / 2 = 90 degrees, etc.
