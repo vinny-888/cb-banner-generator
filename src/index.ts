@@ -336,10 +336,10 @@ function loadPixelBroker(tokenId: number, x: number){
     var plane;
 
     createElementMaterialPixelBroker(tokenId, (material: any)=>{
-        plane = new THREE.Mesh(new THREE.PlaneGeometry(1320/100, 1760/100), material);
+        plane = new THREE.Mesh(new THREE.PlaneGeometry(960/50, 960/50), material);
         plane.material.side = THREE.DoubleSide;
         plane.position.x = 27;
-        plane.position.y = -256/10 + 1760/200 - 3;
+        plane.position.y = -256/10 + 960/200 + 1.6;
         plane.position.z = x - (768/10) + (1320/200) + 7.5;
     
         // rotation.z is rotation around the z-axis, measured in radians (rather than degrees)
