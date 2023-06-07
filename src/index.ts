@@ -81,10 +81,11 @@ generateFloor()
 
 let lp = '1';
 let cbs = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
-let mechIds = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+let mechIds = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
 let hasLp: any = getLP();
 let hasCbs: any = getCBs();
 let hasMechs: any = getMechs();
+let faction: any = getFaction();
 
 if(hasLp){
     lp = hasLp;
@@ -106,6 +107,10 @@ cbs.forEach((cb: string, index: number)=>{
     loadPixelBroker(parseInt(cb), index*15);
 })
 
+if(faction){
+    loadFaction(faction);
+}
+
 // loadSVG('https://ipfs.io/ipfs/QmcsrQJMKA9qC9GcEMgdjb9LPN99iDNAg8aQQJLJGpkHxk/1.svg');
 
 // loadSVG('./textures/cyberbrokers/0.svg');
@@ -126,50 +131,14 @@ if(hasWallet){
 }
 
 if(true){
-    // getMechTokenBalance(wallet).then((mechIds)=>{
         let globalOffsetX = (mechIds.length/2)-1 * scale * 10.4;
 
-        // MODEL WITH ANIMATIONS
-        // gltfLoader.load(prefix+'models/Soldier.glb', function (gltf) {
-        //     const model = gltf.scene;
-        //     model.traverse(function (object: any) {
-        //         if (object.isMesh) object.castShadow = true;
-        //     });
-
-        //     let globalOffsetZ = ((mechIds.length/4)-1) * scale * 10.5;
-            
-        //     model.position.set(0,0,globalOffsetZ);
-        //     scene.add(model);
-
-
-        //     const gltfAnimations: THREE.AnimationClip[] = gltf.animations;
-        //     const mixer = new THREE.AnimationMixer(model);
-        //     const animationsMap: Map<string, THREE.AnimationAction> = new Map()
-        //     gltfAnimations.filter(a => a.name != 'TPose').forEach((a: THREE.AnimationClip) => {
-        //         animationsMap.set(a.name, mixer.clipAction(a))
-        //     })
-
-        //     characterControls = new CharacterControls(model, mixer, animationsMap, orbitControls, camera,  'Idle')
-        // });
 
         if(mechIds.length > 9){
             mechIds = mechIds.slice(0, 9);
         }
         
         mechIds.forEach((mechId: any, index: number)=>{
-
-            // if(index % 4 == 0){
-            //     vrmLoader.load(prefix+'models/hanger.vrm', function (gltf) {
-            //         const model = gltf.scene;
-            //         // model.traverse(function (object: any) {
-            //         //     if (object.isMesh) object.castShadow = true;
-            //         // });
-            //         model.position.set(0, 0, (index/4)*scale*20.5+globalOffsetX);
-            //         model.scale.set(scale,scale,scale);
-            //         scene.add(model);
-            //     });
-                
-            // }
 
             if(index % 16 == 0){
                 const light = new THREE.DirectionalLight('white', 0.5);
@@ -247,27 +216,7 @@ if(true){
                 // called when loading has errors
                 (error) => console.error(error),
               );
-
-            // gltfLoader.load(prefix+'models/mechs/token'+mech+'_mech_1k.glb', function (gltf) {
-                /*
-                gltfLoader.load('https://m.cyberbrokers.com/eth/mech/'+mechId+'/files/mech_1k.glb', function (gltf) {
-                
-                const model = gltf.scene;
-                model.traverse(function (object: any) {
-                    if (object.isMesh) object.castShadow = true;
-                });
-                model.scale.set(scale*1.5,scale*1.5,scale*1.5);
-                let leftSide = index%2 == 0;
-                let spacing = scale*6;
-                let offsetX = scale*3;
-                model.position.set(leftSide ? -spacing : spacing, 0, Math.floor(index/2)*spacing - offsetX + globalOffsetX);
-                model.rotation.set(0, leftSide ? Math.PI/2 : -Math.PI/2, 0);
-                scene.add(model);
-            });
-            */
         })
-
-    // });
 }
 
 
@@ -333,18 +282,6 @@ function generateFloor() {
         side: THREE.DoubleSide, 
         depthWrite: false
     });
-
-    // const material = new THREE.MeshStandardMaterial(
-    //     {
-    //         map: sandBaseColor, normalMap: sandNormalMap,
-    //         displacementMap: sandHeightMap, displacementScale: 0.1,
-    //         aoMap: sandAmbientOcclusion
-    //     })
-    // wrapAndRepeatTexture(material.map)
-    // wrapAndRepeatTexture(material.normalMap)
-    // wrapAndRepeatTexture(material.displacementMap)
-    // wrapAndRepeatTexture(material.aoMap)
-    // const material = new THREE.MeshPhongMaterial({ map: placeholder})
 
     const floor = new THREE.Mesh(geometry, material)
     floor.receiveShadow = true
@@ -421,6 +358,39 @@ function loadLostParadigm(tokenId: number){
         plane.material.side = THREE.DoubleSide;
         plane.position.x = 67;
         plane.position.y = 0;
+    
+        // rotation.z is rotation around the z-axis, measured in radians (rather than degrees)
+        // Math.PI = 180 degrees, Math.PI / 2 = 90 degrees, etc.
+        plane.rotation.y = Math.PI / 2 * 3;
+    
+        scene.add(plane);
+    });
+}
+
+function loadFaction(faction: number){
+    var plane;
+
+    createElementMaterialFaction(faction, (material: any)=>{
+        let width = 0;
+        let height  = 0;
+        let x = 66;
+        let y = 20;
+        let z = 0;
+        if(faction == 1){
+            width = 200;
+            height  = 250;
+        } else if (faction == 2){
+            width = 190;
+            height  = 300;
+        } else if (faction == 3){
+            width = 190;
+            height  = 190;
+        }
+        plane = new THREE.Mesh(new THREE.PlaneGeometry(width/20, height/20), material);
+        plane.material.side = THREE.DoubleSide;
+        plane.position.x = x;
+        plane.position.y = y;
+        plane.position.z = z;
     
         // rotation.z is rotation around the z-axis, measured in radians (rather than degrees)
         // Math.PI = 180 degrees, Math.PI / 2 = 90 degrees, etc.
@@ -517,45 +487,32 @@ function createElementMaterial(tokenId: number, callback: any) {
     );
 }
 
-function loadSVG(svgURL: string){
+function createElementMaterialFaction(faction: number, callback: any) {
 
-    // load a SVG resource
-    svgLoader.load(
+    var material = new THREE.MeshBasicMaterial(); // create a material
+
+    var loader = new THREE.TextureLoader().load(
         // resource URL
-        svgURL,
-        // called when the resource is loaded
-        function ( data ) {
-            const paths = data.paths;
-            const group = new THREE.Group();
-            for ( let i = 0; i < paths.length; i ++ ) {
-                const path = paths[ i ];
-                const material = new THREE.MeshBasicMaterial( {
-                    color: path.color,
-                    side: THREE.DoubleSide,
-                    depthWrite: false
-                } );
-                const shapes = SVGLoader.createShapes( path );
-                for ( let j = 0; j < shapes.length; j ++ ) {
-                    const shape = shapes[ j ];
-                    const geometry = new THREE.ShapeGeometry( shape );
-                    const mesh = new THREE.Mesh( geometry, material );
-                    group.add( mesh );
-                }
-            }
-            group.position.y = 5;
-            group.position.z = 5;
-            group.position.x = 10;
-            group.scale.set(0.1,0.1,0.1)
-            group.rotation.set(Math.PI, Math.PI/2, 0);
-            scene.add( group );
+        "./textures/factions/"+faction+".png" ,
+        // Function when resource is loaded
+        function ( texture ) {
+            // do something with the texture
+                texture.wrapS = THREE.RepeatWrapping;
+                texture.wrapT = THREE.RepeatWrapping;
+
+                material.transparent = true;
+                material.opacity = 1;
+                // texture.offset.x = 90/(2*Math.PI);
+                material.map = texture; // set the material's map when when the texture is loaded
+                callback(material);
         },
-        // called when loading is in progresses
+        // Function called when download progresses
         function ( xhr ) {
-            console.log( ( xhr.loaded / xhr.total * 100 ) + '% loaded' );
+            console.log( (xhr.loaded / xhr.total * 100) + '% loaded' );
         },
-        // called when loading has errors
-        function ( error ) {
-            console.log( 'An error happened', error );
+        // Function called when download errors
+        function ( xhr ) {
+            console.log( 'An error happened' );
         }
     );
 }

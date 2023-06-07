@@ -32,6 +32,12 @@ function getMechs() {
    return mechs? mechs.split(',') : null;
 }
 
+function getFaction() {
+   var url = new URL(window.location);
+   var faction = url.searchParams.get("faction");
+   return faction;
+}
+
 function initMechContract(){
     if(typeof web3 !== 'undefined'){
         console.log("window.web3 is", window.web3, "window.ethereum is", window.ethereum);
