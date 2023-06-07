@@ -10,8 +10,8 @@ import { GLTFParser } from 'three/examples/jsm/loaders/GLTFLoader.js';
 
 initMechContract();
 
-let prefix = '/cb-banner-generator/src/';
-// let prefix = './';
+// let prefix = '/cb-banner-generator/src/';
+let prefix = './';
 
 
 let scale = 5;
@@ -60,13 +60,13 @@ renderer.setPixelRatio(window.devicePixelRatio);
 renderer.shadowMap.enabled = true
 
 // CONTROLS
-// const orbitControls = new OrbitControls(camera, renderer.domElement);
-// orbitControls.enableDamping = true
-// orbitControls.minDistance = 0.5
-// orbitControls.maxDistance = 5
-// orbitControls.enablePan = true
-// orbitControls.maxPolarAngle = Math.PI
-// orbitControls.update();
+const orbitControls = new OrbitControls(camera, renderer.domElement);
+orbitControls.enableDamping = true
+orbitControls.minDistance = 0.5
+orbitControls.maxDistance = 5
+orbitControls.enablePan = true
+orbitControls.maxPolarAngle = Math.PI
+orbitControls.update();
 
 // LIGHTS
 light()
@@ -220,7 +220,7 @@ if(true){
                         scaled = scaled - scaledAmt*4;
                         backDist = backDistAmt*4;
                     }
-                    model.position.set(32+backDist, offsetY, (Math.floor(index+1)*15) - (768/10));
+                    model.position.set(35+backDist, offsetY, (Math.floor(index+1)*15) - (768/10));
                     model.rotation.set(0, leftSide ? Math.PI/2 : -Math.PI/2, 0);
                     model.scale.set(scale*1.5*scaled,scale*1.5*scaled,scale*1.5*scaled);
                     scene.add(model);
