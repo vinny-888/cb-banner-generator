@@ -424,7 +424,7 @@ function loadLostParadigm(tokenId: number){
     
         // rotation.z is rotation around the z-axis, measured in radians (rather than degrees)
         // Math.PI = 180 degrees, Math.PI / 2 = 90 degrees, etc.
-        plane.rotation.y = Math.PI / 2;
+        plane.rotation.y = Math.PI / 2 * 3;
     
         scene.add(plane);
     });
