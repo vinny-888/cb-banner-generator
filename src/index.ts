@@ -102,6 +102,10 @@ cbs.forEach((cb: string, index: number)=>{
     loadBroker(parseInt(cb), index*15);
 })
 
+cbs.forEach((cb: string, index: number)=>{
+    loadPixelBroker(parseInt(cb), index*15);
+})
+
 // loadSVG('https://ipfs.io/ipfs/QmcsrQJMKA9qC9GcEMgdjb9LPN99iDNAg8aQQJLJGpkHxk/1.svg');
 
 // loadSVG('./textures/cyberbrokers/0.svg');
@@ -391,6 +395,24 @@ function loadBroker(tokenId: number, x: number){
     });
 }
 
+function loadPixelBroker(tokenId: number, x: number){
+    var plane;
+
+    createElementMaterialPixelBroker(tokenId, (material: any)=>{
+        plane = new THREE.Mesh(new THREE.PlaneGeometry(1320/100, 1760/100), material);
+        plane.material.side = THREE.DoubleSide;
+        plane.position.x = 27;
+        plane.position.y = -256/10 + 1760/200 - 3;
+        plane.position.z = x - (768/10) + (1320/200) + 7.5;
+    
+        // rotation.z is rotation around the z-axis, measured in radians (rather than degrees)
+        // Math.PI = 180 degrees, Math.PI / 2 = 90 degrees, etc.
+        plane.rotation.y = Math.PI / 2;
+    
+        scene.add(plane);
+    });
+}
+
 function loadLostParadigm(tokenId: number){
     var plane;
 
@@ -415,6 +437,36 @@ function createElementMaterialBroker(tokenId: number, callback: any) {
     var loader = new THREE.TextureLoader().load(
         // resource URL
         "https://mechs-usdz.s3.us-west-1.amazonaws.com/png-nb/cb-"+tokenId.toString().padStart(5, '0')+".png" ,
+        // Function when resource is loaded
+        function ( texture ) {
+            // do something with the texture
+                texture.wrapS = THREE.RepeatWrapping;
+                texture.wrapT = THREE.RepeatWrapping;
+                // texture.offset.x = 90/(2*Math.PI);
+                material.map = texture; // set the material's map when when the texture is loaded
+                material.transparent = true;
+                material.opacity = 1;
+                // material.color = new THREE.Color(0,0,0);
+                callback(material);
+        },
+        // Function called when download progresses
+        function ( xhr ) {
+            console.log( (xhr.loaded / xhr.total * 100) + '% loaded' );
+        },
+        // Function called when download errors
+        function ( xhr ) {
+            console.log( 'An error happened' );
+        }
+    );
+}
+
+function createElementMaterialPixelBroker(tokenId: number, callback: any) {
+
+    var material = new THREE.MeshBasicMaterial(); // create a material
+
+    var loader = new THREE.TextureLoader().load(
+        // resource URL
+        "https://cb-media.sfo3.cdn.digitaloceanspaces.com/pixelbrokers/current/pfp/"+tokenId+".png" ,
         // Function when resource is loaded
         function ( texture ) {
             // do something with the texture
