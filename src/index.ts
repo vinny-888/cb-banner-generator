@@ -60,13 +60,18 @@ renderer.setPixelRatio(window.devicePixelRatio);
 renderer.shadowMap.enabled = true
 
 // CONTROLS
-const orbitControls = new OrbitControls(camera, renderer.domElement);
-orbitControls.enableDamping = true
-orbitControls.minDistance = 0.5
-orbitControls.maxDistance = 5
-orbitControls.enablePan = true
-orbitControls.maxPolarAngle = Math.PI
-orbitControls.update();
+// const orbitControls = new OrbitControls(camera, renderer.domElement);
+// orbitControls.enableDamping = true
+// orbitControls.minDistance = 0.5
+// orbitControls.maxDistance = 5
+// orbitControls.enablePan = true
+// orbitControls.maxPolarAngle = Math.PI
+// orbitControls.update();
+
+// // camera.position.set( 0, 0, 0 );
+// // camera.rotation.set(0, -Math.PI / 2, 0)
+// camera.lookAt(new THREE.Vector3(0,1,0));
+// orbitControls.update();
 
 // LIGHTS
 light()
