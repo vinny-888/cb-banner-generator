@@ -10,8 +10,8 @@ import { GLTFParser } from 'three/examples/jsm/loaders/GLTFLoader.js';
 
 initMechContract();
 
-// let prefix = '/cb-banner-generator/src/';
-let prefix = './';
+let prefix = '/cb-banner-generator/src/';
+// let prefix = './';
 
 
 let scale = 5;
