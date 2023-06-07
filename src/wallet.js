@@ -14,6 +14,18 @@ function getWallet() {
     return wallet;
 }
 
+function getLP() {
+   var url = new URL(window.location);
+   var lp = url.searchParams.get("lp");
+   return lp;
+}
+
+function getCBs() {
+   var url = new URL(window.location);
+   var cbs = url.searchParams.get("cbs");
+   return cbs? cbs.split(',') : null;
+}
+
 function initMechContract(){
     if(typeof web3 !== 'undefined'){
         console.log("window.web3 is", window.web3, "window.ethereum is", window.ethereum);
