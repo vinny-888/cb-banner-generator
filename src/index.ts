@@ -392,7 +392,7 @@ function loadLostParadigm(tokenId: number){
     createElementMaterial(tokenId, (material: any)=>{
         plane = new THREE.Mesh(new THREE.PlaneGeometry(768/5, 256/5), material);
         plane.material.side = THREE.DoubleSide;
-        plane.position.x = 60;
+        plane.position.x = 67;
         plane.position.y = 0;
     
         // rotation.z is rotation around the z-axis, measured in radians (rather than degrees)
