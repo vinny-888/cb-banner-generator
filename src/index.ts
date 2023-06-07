@@ -140,12 +140,7 @@ if(true){
         
         mechIds.forEach((mechId: any, index: number)=>{
 
-            if(index % 16 == 0){
-                const light = new THREE.DirectionalLight('white', 0.5);
-
-                light.position.set(0, 50, (index/16)*scale*20.5 - 100);
-                scene.add(light);
-            }
+            
             
             vrmLoader.load(
                 // URL of the VRM you want to load
@@ -199,6 +194,16 @@ if(true){
                         backDist = backDistAmt*4;
                     }
                     model.position.set(35+backDist, offsetY, (Math.floor(index+1)*15) - (768/10)+globalOffsetZ);
+
+                    if(index % 3 == 0){
+                        // const light = new THREE.DirectionalLight('white', 0.25);
+                        const light = new THREE.HemisphereLight( 0xffffff, 0xffffff, 0.35 ); 
+        
+                        light.position.set(0, 20, (Math.floor(index+1)*15) - (768/10)+globalOffsetZ);
+                        light.rotation.set(0,0,0)
+                        scene.add(light);
+                    }
+
                     model.rotation.set(0, leftSide ? Math.PI/2 : -Math.PI/2, 0);
                     model.scale.set(scale*1.5*scaled,scale*1.5*scaled,scale*1.5*scaled);
                     scene.add(model);
