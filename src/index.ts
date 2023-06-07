@@ -404,7 +404,7 @@ function createElementMaterial(tokenId: number, callback: any) {
 
     var loader = new THREE.TextureLoader().load(
         // resource URL
-        "https://lostparadigms.xyz/images/pages/gallery/selected-"+tokenId+".webp" ,
+        "https://oqxg2wmrtpubbhcgjoawtmkzqwddjqnqxekoakos553zs66wg2ia.arweave.net/dC5tWZGb6BCcRkuBabFZhYY0wbC5FOAp0u93mXvWNpA/"+tokenId+".png" ,
         // Function when resource is loaded
         function ( texture ) {
             // do something with the texture
