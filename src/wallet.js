@@ -26,6 +26,12 @@ function getCBs() {
    return cbs? cbs.split(',') : null;
 }
 
+function getMechs() {
+   var url = new URL(window.location);
+   var mechs = url.searchParams.get("mechs");
+   return mechs? mechs.split(',') : null;
+}
+
 function initMechContract(){
     if(typeof web3 !== 'undefined'){
         console.log("window.web3 is", window.web3, "window.ethereum is", window.ethereum);

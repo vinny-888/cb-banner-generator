@@ -76,14 +76,19 @@ generateFloor()
 
 let lp = '1';
 let cbs = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
+let mechIds = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];
 let hasLp: any = getLP();
 let hasCbs: any = getCBs();
+let hasMechs: any = getMechs();
 
 if(hasLp){
     lp = hasLp;
 }
 if(hasCbs){
     cbs = hasCbs;
+}
+if(hasMechs){
+    mechIds = hasMechs;
 }
 
 loadLostParadigm(parseInt(lp));
@@ -112,7 +117,7 @@ if(hasWallet){
 }
 
 if(true){
-    getMechTokenBalance(wallet).then((mechIds)=>{
+    // getMechTokenBalance(wallet).then((mechIds)=>{
         let globalOffsetX = (mechIds.length/2)-1 * scale * 10.4;
 
         // MODEL WITH ANIMATIONS
@@ -138,6 +143,10 @@ if(true){
         //     characterControls = new CharacterControls(model, mixer, animationsMap, orbitControls, camera,  'Idle')
         // });
 
+        if(mechIds.length > 9){
+            mechIds = mechIds.slice(0, 9);
+        }
+        
         mechIds.forEach((mechId: any, index: number)=>{
 
             // if(index % 4 == 0){
@@ -175,19 +184,45 @@ if(true){
                     let leftShoulderKey = 'L_shoulder_001_SCJNT_000';
 
                     let rightShoulder = gltf.scene.getObjectByName(rightShoulderKey);
-                    rightShoulder.rotation.y = rightShoulder.rotation.y + -Math.PI/4;
+                    rightShoulder.rotation.y = rightShoulder.rotation.y + -Math.PI/3;
 
                     let leftShoulder = gltf.scene.getObjectByName(leftShoulderKey);
-                    leftShoulder.rotation.y = leftShoulder.rotation.y + Math.PI/4;
+                    leftShoulder.rotation.y = leftShoulder.rotation.y + Math.PI/3;
 
 
-                    model.scale.set(scale*1.5,scale*1.5,scale*1.5);
+                    
                     // let leftSide = index%2 == 0;
                     let leftSide = false;
                     let spacing = scale*6;
                     let offsetX = scale*3;
-                    model.position.set(30, -256/10, Math.floor(index)*15 - 768/2 + 7.5);
+                    let offsetY = -256/10;
+                    let scaled = 2;
+                    let scaledAmt = 0.1;
+                    let dist = 1.25;
+                    let backDist = 0;
+                    let backDistAmt = 7;
+                    if(index == 0 || index == 8){
+                        offsetY+= dist;
+                    } else if(index == 1 || index == 7){
+                        offsetY+=dist*2;
+                        scaled = scaled - scaledAmt*1;
+                        backDist = backDistAmt;
+                    } else if(index == 2 || index == 6){
+                        offsetY+=dist*3;
+                        scaled = scaled - scaledAmt*2;
+                        backDist = backDistAmt*2;
+                    } else if(index == 3 || index == 5){
+                        offsetY+=dist*4;
+                        scaled = scaled - scaledAmt*3;
+                        backDist = backDistAmt*3;
+                    } else if(index == 4){
+                        offsetY+=dist*5;
+                        scaled = scaled - scaledAmt*4;
+                        backDist = backDistAmt*4;
+                    }
+                    model.position.set(32+backDist, offsetY, (Math.floor(index+1)*15) - (768/10));
                     model.rotation.set(0, leftSide ? Math.PI/2 : -Math.PI/2, 0);
+                    model.scale.set(scale*1.5*scaled,scale*1.5*scaled,scale*1.5*scaled);
                     scene.add(model);
               
                     // add the loaded vrm to the scene
@@ -223,7 +258,7 @@ if(true){
             */
         })
 
-    });
+    // });
 }
 
 
@@ -357,7 +392,7 @@ function loadLostParadigm(tokenId: number){
     createElementMaterial(tokenId, (material: any)=>{
         plane = new THREE.Mesh(new THREE.PlaneGeometry(768/5, 256/5), material);
         plane.material.side = THREE.DoubleSide;
-        plane.position.x = 33;
+        plane.position.x = 60;
         plane.position.y = 0;
     
         // rotation.z is rotation around the z-axis, measured in radians (rather than degrees)
